@@ -73,7 +73,7 @@ export function Footer() {
             <ul className="flex flex-col gap-4">
               <li className="flex items-start gap-3 text-muted-foreground">
                 <Mail className="w-5 h-5 mt-0.5 text-primary" />
-                <span>hello@tritechforge.com</span>
+                <span>sales@tritechforge.cloud</span>
               </li>
               <li className="flex items-start gap-3 text-muted-foreground">
                 <Phone className="w-5 h-5 mt-0.5 text-primary" />
