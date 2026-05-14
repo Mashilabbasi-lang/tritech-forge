@@ -2,8 +2,8 @@ import { Layout } from "@/components/layout/Layout";
 import { useTitle } from "@/hooks/use-title";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { useState, useMemo } from "react";
-import { getPublishedPosts, BlogPost } from "@/lib/blog-store";
+import { useState, useMemo, useEffect } from "react";
+import { getPublishedPostsAsync, BlogPost } from "@/lib/blog-store";
 import { Calendar, Clock, Tag, ArrowRight, PenLine, Search, ImageOff } from "lucide-react";
 import { useIsAdmin } from "@/components/blog/AdminGate";
 
@@ -94,9 +94,16 @@ export default function Blog() {
 
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
   const isAdmin = useIsAdmin();
 
-  const allPosts = getPublishedPosts();
+  useEffect(() => {
+    getPublishedPostsAsync().then(posts => {
+      setAllPosts(posts);
+      setLoading(false);
+    });
+  }, []);
 
   const filtered = useMemo(() => {
     return allPosts.filter((p) => {
@@ -202,14 +209,17 @@ export default function Blog() {
           </motion.div>
 
           {/* Posts grid */}
-          {filtered.length > 0 ? (
+          {loading ? (
+            <div className="flex items-center justify-center py-24">
+              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+            </div>
+          ) : filtered.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((post, i) => (
                 <PostCard key={post.id} post={post} index={i} />
               ))}
             </div>
-          ) : (
-            <motion.div
+          ) : (            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="text-center py-24 text-gray-500"

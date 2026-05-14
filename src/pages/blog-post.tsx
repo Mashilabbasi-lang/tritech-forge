@@ -2,9 +2,10 @@ import { Layout } from "@/components/layout/Layout";
 import { useTitle } from "@/hooks/use-title";
 import { motion } from "framer-motion";
 import { Link, useParams } from "wouter";
-import { getPostBySlug } from "@/lib/blog-store";
+import { getPostBySlugAsync } from "@/lib/blog-store";
 import { Calendar, Clock, ArrowLeft, PenLine, Tag, Share2, Check } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
+import type { BlogPost } from "@/lib/blog-store";
 import { useIsAdmin } from "@/components/blog/AdminGate";
 
 function renderContent(content: string) {
@@ -86,9 +87,16 @@ export default function BlogPost() {
   const params = useParams<{ slug: string }>();
   const [copied, setCopied] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [post, setPost] = useState<BlogPost | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
   const isAdmin = useIsAdmin();
 
-  const post = getPostBySlug(params.slug);
+  useEffect(() => {
+    getPostBySlugAsync(params.slug).then(p => {
+      setPost(p);
+      setLoading(false);
+    });
+  }, [params.slug]);
 
   useTitle(
     post ? `${post.title} | TriTech Forge Blog` : "Post Not Found | TriTech Forge",
@@ -99,6 +107,16 @@ export default function BlogPost() {
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  if (loading) {
+    return (
+      <Layout>
+        <main className="min-h-screen flex items-center justify-center pt-24">
+          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        </main>
+      </Layout>
+    );
   }
 
   if (!post) {

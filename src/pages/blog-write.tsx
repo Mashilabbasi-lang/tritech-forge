@@ -7,9 +7,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod/v4";
 import {
-  getPosts,
-  savePost,
-  deletePost,
+  getAllPostsAsync,
+  savePostAsync,
+  deletePostAsync,
   generateSlug,
   estimateReadingTime,
   BlogPost,
@@ -67,19 +67,9 @@ function BlogWriteEditor() {
   const params = new URLSearchParams(search);
   const editId = params.get("edit");
 
-  const existingPost = editId ? getPosts().find((p) => p.id === editId) : undefined;
-  const isEditing = !!existingPost;
-
-  useTitle(
-    isEditing ? "Edit Post | TriTech Forge" : "Write a Post | TriTech Forge",
-    "Blog post editor — TriTech Forge Admin"
-  );
-
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saved" | "error">("idle");
-  const [slugValue, setSlugValue] = useState(existingPost?.slug ?? "");
-  const [showPreview, setShowPreview] = useState(false);
-  const [wordCount, setWordCount] = useState(0);
-  const [imagePreviewError, setImagePreviewError] = useState(false);
+  const [existingPost, setExistingPost] = useState<BlogPost | undefined>(undefined);
+  const [isEditing, setIsEditing] = useState(false);
+  const [loadingPost, setLoadingPost] = useState(!!editId);
 
   const {
     register,
@@ -90,16 +80,49 @@ function BlogWriteEditor() {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      title: existingPost?.title ?? "",
-      excerpt: existingPost?.excerpt ?? "",
-      content: existingPost?.content ?? "",
-      category: existingPost?.category ?? CATEGORIES[0],
-      author: existingPost?.author ?? "TriTech Forge Team",
-      published: existingPost?.published ?? false,
-      coverColor: existingPost?.coverColor ?? COVER_COLORS[0],
-      imageUrl: existingPost?.imageUrl ?? "",
+      title: "",
+      excerpt: "",
+      content: "",
+      category: CATEGORIES[0],
+      author: "TriTech Forge Team",
+      published: false,
+      coverColor: COVER_COLORS[0],
+      imageUrl: "",
     },
   });
+
+  useEffect(() => {
+    if (editId) {
+      getAllPostsAsync().then(posts => {
+        const found = posts.find(p => p.id === editId);
+        setExistingPost(found);
+        setIsEditing(!!found);
+        setLoadingPost(false);
+        if (found) {
+          setValue("title", found.title);
+          setValue("excerpt", found.excerpt);
+          setValue("content", found.content);
+          setValue("category", found.category);
+          setValue("author", found.author);
+          setValue("published", found.published);
+          setValue("coverColor", found.coverColor);
+          setValue("imageUrl", found.imageUrl ?? "");
+          setSlugValue(found.slug);
+        }
+      });
+    }
+  }, [editId]);
+
+  useTitle(
+    isEditing ? "Edit Post | TriTech Forge" : "Write a Post | TriTech Forge",
+    "Blog post editor — TriTech Forge Admin"
+  );
+
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saved" | "error">("idle");
+  const [slugValue, setSlugValue] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
+  const [wordCount, setWordCount] = useState(0);
+  const [imagePreviewError, setImagePreviewError] = useState(false);
 
   const watchedTitle = watch("title");
   const watchedContent = watch("content");
@@ -123,36 +146,35 @@ function BlogWriteEditor() {
   }, [watchedImageUrl]);
 
   function onSubmit(data: FormData) {
-    try {
-      const post: BlogPost = {
-        id: existingPost?.id ?? crypto.randomUUID(),
-        slug: slugValue || generateSlug(data.title),
-        title: data.title,
-        excerpt: data.excerpt,
-        content: data.content,
-        category: data.category,
-        author: data.author,
-        published: data.published,
-        coverColor: data.coverColor,
-        imageUrl: data.imageUrl?.trim() || undefined,
-        publishedAt: existingPost?.publishedAt ?? new Date().toISOString().split("T")[0],
-        readingTime: estimateReadingTime(data.content),
-      };
-      savePost(post);
-      setSaveStatus("saved");
-      setTimeout(() => {
-        setLocation(`/blog/${post.slug}`);
-      }, 800);
-    } catch {
-      setSaveStatus("error");
-    }
+    setSaveStatus("saved" as any);
+    const post: BlogPost = {
+      id: existingPost?.id ?? crypto.randomUUID(),
+      slug: slugValue || generateSlug(data.title),
+      title: data.title,
+      excerpt: data.excerpt,
+      content: data.content,
+      category: data.category,
+      author: data.author,
+      published: data.published,
+      coverColor: data.coverColor,
+      imageUrl: data.imageUrl?.trim() || undefined,
+      publishedAt: existingPost?.publishedAt ?? new Date().toISOString().split("T")[0],
+      readingTime: estimateReadingTime(data.content),
+    };
+    savePostAsync(post).then(saved => {
+      if (saved) {
+        setSaveStatus("saved");
+        setTimeout(() => setLocation(`/blog/${saved.slug}`), 800);
+      } else {
+        setSaveStatus("error");
+      }
+    }).catch(() => setSaveStatus("error"));
   }
 
   function handleDelete() {
     if (!existingPost) return;
     if (window.confirm("Delete this post permanently?")) {
-      deletePost(existingPost.id);
-      setLocation("/blog");
+      deletePostAsync(existingPost.id).then(() => setLocation("/blog"));
     }
   }
 
