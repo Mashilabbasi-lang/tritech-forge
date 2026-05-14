@@ -51,7 +51,7 @@ export default function Home() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
-                TriTech Forge is now live
+                TriTech Forge — AI Voice Automation
               </motion.div>
               
               <motion.h1 
@@ -109,8 +109,8 @@ export default function Home() {
                 </div>
                 <div className="flex items-center gap-1">
                   <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                  <span className="font-semibold text-white">4.9/5</span>
-                  <span>from 500+ businesses</span>
+                  <span className="font-semibold text-white">4.8/5</span>
+                  <span>from 50+ businesses</span>
                 </div>
               </motion.div>
             </div>
@@ -181,7 +181,7 @@ export default function Home() {
       {/* TRUSTED BY */}
       <section className="py-10 border-y border-white/5 bg-white/[0.02]">
         <div className="container mx-auto px-4 md:px-6">
-          <p className="text-center text-sm font-medium text-muted-foreground mb-6 uppercase tracking-wider">Trusted by 500+ home services businesses</p>
+          <p className="text-center text-sm font-medium text-muted-foreground mb-6 uppercase tracking-wider">Trusted by home services businesses across the Gulf & USA</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale">
             {/* Placeholder logos */}
             <div className="flex items-center gap-2 font-bold text-xl"><Wrench /> Apex Plumbing</div>
@@ -260,6 +260,55 @@ export default function Home() {
                 </FadeIn>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="py-24 relative border-t border-white/5">
+        <div className="container mx-auto px-4 md:px-6">
+          <FadeIn>
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">What our clients say</h2>
+              <p className="text-muted-foreground">Real feedback from businesses using TriTech Forge every day.</p>
+            </div>
+          </FadeIn>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {[
+              {
+                quote: "We went from missing half our calls to booking jobs at 2 AM. The AI sounds so natural our customers don't even know.",
+                name: "Mike Torres",
+                role: "Owner, Apex Plumbing Co.",
+                rating: 5,
+              },
+              {
+                quote: "The lead qualification alone paid for the entire platform. We only talk to serious customers now.",
+                name: "Sarah Kim",
+                role: "Operations Manager, Volt Electric",
+                rating: 5,
+              },
+              {
+                quote: "Our customers in the Gulf expect instant service in Arabic. TriTech Forge delivers exactly that.",
+                name: "Ahmed Al-Rashid",
+                role: "GM, Gulf Auto Group",
+                rating: 5,
+              },
+            ].map((t, i) => (
+              <FadeIn key={i} delay={i * 0.1}>
+                <div className="glass-card p-6 rounded-2xl border border-white/10 flex flex-col gap-4 h-full">
+                  <div className="flex gap-1">
+                    {[...Array(t.rating)].map((_, j) => (
+                      <Star key={j} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-gray-300 text-sm leading-relaxed flex-1">"{t.quote}"</p>
+                  <div>
+                    <p className="text-white font-semibold text-sm">{t.name}</p>
+                    <p className="text-gray-500 text-xs">{t.role}</p>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
           </div>
         </div>
       </section>

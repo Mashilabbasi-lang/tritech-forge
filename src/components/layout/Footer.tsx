@@ -37,7 +37,7 @@ export function Footer() {
                 <FaFacebook className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/in/tritech-forge-9a403340a"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-400 hover:text-blue-500 hover:border-blue-500/50 transition-all"
@@ -77,11 +77,11 @@ export function Footer() {
               </li>
               <li className="flex items-start gap-3 text-muted-foreground">
                 <Phone className="w-5 h-5 mt-0.5 text-primary" />
-                <a href="tel:+033359823786" className="hover:text-primary transition-colors">Call Us</a>
+                <a href="tel:+923359823786" className="hover:text-primary transition-colors">+92 335 9823786</a>
               </li>
               <li className="flex items-start gap-3 text-muted-foreground">
                 <MapPin className="w-5 h-5 mt-0.5 text-primary" />
-                <span>100 Innovation Drive<br/>San Francisco, CA 94103</span>
+                <span>Gulf Region & USA</span>
               </li>
             </ul>
           </div>

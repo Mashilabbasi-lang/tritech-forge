@@ -128,10 +128,10 @@ const caseStudies = [
 ];
 
 const stats = [
-  { value: "500+", label: "Businesses Served" },
-  { value: "2M+", label: "Calls Handled" },
+  { value: "50+", label: "Businesses Served" },
+  { value: "12K+", label: "Calls Handled" },
   { value: "98%", label: "Avg Answer Rate" },
-  { value: "$12M+", label: "Revenue Generated for Clients" },
+  { value: "$500K+", label: "Revenue Generated for Clients" },
 ];
 
 export default function CaseStudies() {

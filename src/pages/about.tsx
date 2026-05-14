@@ -73,10 +73,10 @@ export default function About() {
       <div className="py-16 border-y border-white/10 bg-card/50">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <Counter value={250000} label="Calls Handled" suffix="+" />
-            <Counter value={500} label="Active Businesses" suffix="+" />
-            <Counter value={99.99} label="Uptime Guarantee" suffix="%" />
-            <Counter value={40} label="Avg ROI (Days)" prefix="<" />
+            <Counter value={12000} label="Calls Handled" suffix="+" />
+            <Counter value={50} label="Active Businesses" suffix="+" />
+            <Counter value={99} label="Uptime Guarantee" suffix="%" />
+            <Counter value={30} label="Avg ROI (Days)" prefix="<" />
           </div>
         </div>
       </div>
