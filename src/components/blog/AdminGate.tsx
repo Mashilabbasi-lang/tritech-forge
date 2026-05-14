@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Lock, Eye, EyeOff, Shield, LogOut } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 
-const ADMIN_PASSWORD = "TritechAdmin2024";
+const ADMIN_PASSWORD = "TriTech1122@$%";
 const SESSION_KEY = "tritech_admin_auth";
 
 export function useIsAdmin(): boolean {
