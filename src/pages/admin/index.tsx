@@ -258,7 +258,7 @@ export default function AdminDashboard() {
   }, []);
 
   useEffect(() => {
-    if (!localStorage.getItem("crm_admin_token")) { nav("/admin/login"); return; }
+    if (!localStorage.getItem("crm_token")) { nav("/admin/login"); return; }
     load();
   }, []);
 
