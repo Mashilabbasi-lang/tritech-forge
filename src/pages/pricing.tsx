@@ -11,12 +11,12 @@ export default function Pricing() {
   const tiers = [
     {
       name: "Starter",
-      price: "100",
+      price: "40",
       badge: null,
       desc: "Perfect for HVAC, plumbing, and small home services businesses ready to stop missing calls.",
       idealFor: "HVAC · Plumbing · Electrical · Cleaning",
       features: [
-        "500 AI minutes / month",
+        "120 AI minutes / month",
         "1 AI Voice Profile",
         "Standard Business Hours",
         "Basic Call Transcripts",
@@ -36,12 +36,12 @@ export default function Pricing() {
     },
     {
       name: "Agency",
-      price: "180",
+      price: "69.9",
       badge: "Most Popular",
       desc: "For agencies and multi-location businesses managing multiple clients or service areas.",
       idealFor: "Car Dealerships · Roofing · Real Estate · Agencies",
       features: [
-        "2,000 AI minutes / month",
+        "220 AI minutes / month",
         "3 AI Voice Profiles",
         "24/7 Always-On Answering",
         "Direct Calendar Booking",
@@ -62,12 +62,12 @@ export default function Pricing() {
     },
     {
       name: "Enterprise",
-      price: null,
+      price: "100",
       badge: null,
       desc: "Custom-built for large dealership groups, medical networks, and high-volume operations across the Gulf & USA.",
       idealFor: "Car Dealerships · Medical Groups · Large Operations",
       features: [
-        "Unlimited AI minutes",
+        "350 AI minutes / month",
         "10+ AI Voice Profiles",
         "Outbound Calling Campaigns",
         "Custom API Access & Webhooks",
@@ -148,8 +148,7 @@ export default function Pricing() {
                     </>
                   ) : (
                     <span className="text-3xl font-bold text-white">Custom Pricing</span>
-                  )}
-                </div>
+                  )}                </div>
               </div>
 
               <Link

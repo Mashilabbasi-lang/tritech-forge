@@ -298,7 +298,7 @@ export default function Contact() {
                       color: "bg-secondary/10",
                       iconColor: "text-secondary",
                       label: "Phone",
-                      value: "+92 335 9823786",
+                      value: "+1-469-960-6870",
                       sub: "Mon-Fri 9am–6pm PST · Gulf hours available",
                     },
                     {
@@ -342,11 +342,11 @@ export default function Contact() {
                   Book a 15-minute discovery call directly on our calendar — no commitment needed.
                 </p>
                 <a
-                  href="tel:+923359823786"
+                  href="tel:+14699606870"
                   className="block w-full px-6 py-3 rounded-xl border border-primary/30 text-primary font-semibold hover:bg-primary/10 transition-colors text-sm"
                   data-testid="link-book-call"
                 >
-                  📞 +92 335 9823786
+                  📞 +1-469-960-6870
                 </a>
                 <p className="text-xs text-gray-600 mt-3">Tap to call us directly</p>
               </div>
