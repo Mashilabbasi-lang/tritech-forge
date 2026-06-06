@@ -64,7 +64,7 @@ export default function Contact() {
         const body = encodeURIComponent(
           `Name: ${data.name}\nBusiness: ${data.business}\nEmail: ${data.email}\nPhone: ${data.phone}\nIndustry: ${data.industry || "Not specified"}\nMessage: ${data.message || "—"}`
         );
-        window.open(`mailto:sales@tritechforge.cloud?subject=${subject}&body=${body}`);
+        window.open(`mailto:hello@tritechforge.cloud?subject=${subject}&body=${body}`);
       }
       setSubmitState("success");
       form.reset();
@@ -247,7 +247,7 @@ export default function Contact() {
 
                       {submitState === "error" && (
                         <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
-                          Something went wrong. Please email us directly at sales@tritechforge.cloud
+                          Something went wrong. Please email us directly at hello@tritechforge.cloud
                         </p>
                       )}
 
@@ -290,7 +290,7 @@ export default function Contact() {
                       color: "bg-primary/10",
                       iconColor: "text-primary",
                       label: "Email",
-                      value: "sales@tritechforge.cloud",
+                      value: "hello@tritechforge.cloud",
                       sub: "We typically reply within 2 hours.",
                     },
                     {
