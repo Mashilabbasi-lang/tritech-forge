@@ -2,8 +2,90 @@ import { useState, useEffect, useCallback } from "react";
 import { useLocation, useParams } from "wouter";
 import { crmApi, getSession } from "@/lib/crm-api";
 import { motion } from "framer-motion";
-import { ArrowLeft, Plus, Search, Trash2, Edit, Eye, CheckCircle, Clock, XCircle, AlertTriangle, Zap, RefreshCw, Webhook, Copy } from "lucide-react";
+import { ArrowLeft, Plus, Search, Trash2, RefreshCw, Webhook, Copy } from "lucide-react";
 
+// ─── New Booking Modal ────────────────────────────────────
+function NewBookingModal({ companyId, onClose, onCreated }: { companyId: string, onClose: () => void, onCreated: (b: any) => void }) {
+  const [form, setForm] = useState({
+    customerName: "", phone: "", issueType: "", date: "", time: "", city: "", isEmergency: false, notes: ""
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const iCls = "w-full px-3 py-2.5 rounded-lg border text-sm text-white placeholder-gray-600 focus:outline-none focus:border-primary transition-colors";
+  const iStyle = { background: "#0a0c0f", borderColor: "#1f2530" };
+
+  const handleSubmit = async () => {
+    if (!form.customerName.trim()) { setError("Customer name is required"); return; }
+    setLoading(true);
+    setError("");
+    try {
+      const res = await crmApi.createBooking(companyId, form);
+      if (res.success) { onCreated(res.booking); }
+      else setError(res.error || "Failed to create booking");
+    } catch { setError("Cannot connect to server"); }
+    setLoading(false);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative w-full max-w-md rounded-2xl border shadow-2xl z-10 max-h-[90vh] overflow-y-auto" style={{ background: "#111318", borderColor: "#1f2530" }}>
+        <div className="flex items-center justify-between px-6 py-5 border-b sticky top-0" style={{ borderColor: "#1f2530", background: "#111318" }}>
+          <h3 className="font-bold text-white text-lg">New Booking</h3>
+          <button onClick={onClose} className="text-gray-500 hover:text-white text-xl">✕</button>
+        </div>
+        <div className="p-6 space-y-4">
+          <div>
+            <label className="block text-xs text-gray-400 mb-1.5">Customer Name <span className="text-red-400">*</span></label>
+            <input value={form.customerName} onChange={e => setForm(f => ({ ...f, customerName: e.target.value }))} placeholder="John Smith" className={iCls} style={iStyle} />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs text-gray-400 mb-1.5">Phone</label>
+              <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="(555) 123-4567" className={iCls} style={iStyle} />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-400 mb-1.5">Issue Type</label>
+              <input value={form.issueType} onChange={e => setForm(f => ({ ...f, issueType: e.target.value }))} placeholder="Pipe Leak" className={iCls} style={iStyle} />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs text-gray-400 mb-1.5">Date</label>
+              <input type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} className={iCls} style={iStyle} />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-400 mb-1.5">Time</label>
+              <input type="time" value={form.time} onChange={e => setForm(f => ({ ...f, time: e.target.value }))} className={iCls} style={iStyle} />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs text-gray-400 mb-1.5">City</label>
+            <input value={form.city} onChange={e => setForm(f => ({ ...f, city: e.target.value }))} placeholder="New York" className={iCls} style={iStyle} />
+          </div>
+          <div>
+            <label className="block text-xs text-gray-400 mb-1.5">Notes</label>
+            <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} placeholder="Additional details..." rows={2} className={iCls} style={iStyle} />
+          </div>
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" checked={form.isEmergency} onChange={e => setForm(f => ({ ...f, isEmergency: e.target.checked }))} className="w-4 h-4 accent-red-500" />
+            <span className="text-sm text-gray-300">🚨 Mark as Emergency</span>
+          </label>
+          {error && <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{error}</p>}
+        </div>
+        <div className="flex justify-end gap-3 px-6 py-4 border-t sticky bottom-0" style={{ borderColor: "#1f2530", background: "#111318" }}>
+          <button onClick={onClose} className="px-4 py-2 rounded-lg border text-sm text-gray-300" style={{ borderColor: "#1f2530" }}>Cancel</button>
+          <button onClick={handleSubmit} disabled={loading} className="px-6 py-2 rounded-lg bg-primary text-white text-sm font-semibold disabled:opacity-50">
+            {loading ? "Creating..." : "Create Booking"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Status Colors ────────────────────────────────────────
 const STATUS_COLORS: Record<string, string> = {
   Pending: "bg-amber-500/15 text-amber-400 border-amber-500/30",
   Confirmed: "bg-blue-500/15 text-blue-400 border-blue-500/30",
@@ -11,10 +93,6 @@ const STATUS_COLORS: Record<string, string> = {
   Completed: "bg-green-500/15 text-green-400 border-green-500/30",
   Cancelled: "bg-red-500/15 text-red-400 border-red-500/30",
 };
-
-function Badge({ status }: { status: string }) {
-  return <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${STATUS_COLORS[status] || "bg-gray-500/15 text-gray-400 border-gray-500/30"}`}>{status}</span>;
-}
 
 function StatCard({ label, value, color, icon }: any) {
   return (
@@ -25,6 +103,7 @@ function StatCard({ label, value, color, icon }: any) {
   );
 }
 
+// ─── Main CRM Page ────────────────────────────────────────
 export default function CompanyCRM() {
   const params = useParams<{ id: string }>();
   const companyId = params.id;
@@ -133,7 +212,6 @@ export default function CompanyCRM() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
           {/* Bookings table */}
           <div className="lg:col-span-3 space-y-4">
-            {/* Filters */}
             <div className="flex gap-3 flex-wrap">
               <div className="flex-1 min-w-48 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
@@ -149,7 +227,6 @@ export default function CompanyCRM() {
               </select>
             </div>
 
-            {/* Table */}
             <div className="rounded-xl border overflow-hidden" style={{ borderColor: "#1f2530" }}>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
@@ -168,7 +245,7 @@ export default function CompanyCRM() {
                         <button onClick={() => setShowNewBooking(true)} className="mt-3 text-primary hover:underline text-sm">+ Create first booking</button>
                       </td></tr>
                     ) : bookings.map((b, i) => (
-                      <tr key={b.id} className={`hover:bg-white/3 transition-colors ${i < bookings.length - 1 ? "border-b" : ""}`} style={{ borderColor: "#1f2530" }}>
+                      <tr key={b.id} className={`hover:bg-white/5 transition-colors ${i < bookings.length - 1 ? "border-b" : ""}`} style={{ borderColor: "#1f2530" }}>
                         <td className="px-4 py-3">
                           <span className="font-mono text-xs text-primary font-semibold">{b.id}</span>
                           {b.isEmergency && <span className="ml-1 w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse inline-block" />}
@@ -223,7 +300,20 @@ export default function CompanyCRM() {
         </div>
       </div>
 
-      {/* Webhook modal */}
+      {/* New Booking Modal */}
+      {showNewBooking && (
+        <NewBookingModal
+          companyId={companyId}
+          onClose={() => setShowNewBooking(false)}
+          onCreated={(booking) => {
+            setBookings(b => [booking, ...b]);
+            setShowNewBooking(false);
+            load();
+          }}
+        />
+      )}
+
+      {/* Webhook Modal */}
       {showWebhook && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/70" onClick={() => setShowWebhook(false)} />
@@ -232,7 +322,7 @@ export default function CompanyCRM() {
               <h3 className="font-bold text-white">n8n Webhook URL</h3>
               <button onClick={() => setShowWebhook(false)} className="text-gray-500 hover:text-white">✕</button>
             </div>
-            <p className="text-xs text-gray-400">Your AI calling agent sends bookings to this URL. Configure it in n8n as an HTTP Request node.</p>
+            <p className="text-xs text-gray-400">Your AI calling agent sends bookings to this URL.</p>
             <div className="flex gap-2">
               <code className="flex-1 px-3 py-2.5 rounded-lg border text-xs text-green-400 break-all" style={{ background: "#0a0c0f", borderColor: "#1f2530" }}>
                 {webhookUrl}
@@ -241,9 +331,7 @@ export default function CompanyCRM() {
                 {copied ? "✓ Copied" : <Copy className="w-4 h-4" />}
               </button>
             </div>
-            <div className="rounded-lg border p-3 text-xs text-gray-400 space-y-1" style={{ borderColor: "#1f2530", background: "#0a0c0f" }}>
-              <p className="font-semibold text-white mb-2">Payload format:</p>
-              <pre className="text-green-400 text-xs overflow-x-auto">{`{
+            <pre className="text-green-400 text-xs overflow-x-auto bg-black/30 p-3 rounded-lg">{`{
   "customerName": "John Smith",
   "phone": "(201) 555-0100",
   "issueType": "Leak",
@@ -252,12 +340,11 @@ export default function CompanyCRM() {
   "city": "Newark",
   "isEmergency": false
 }`}</pre>
-            </div>
           </div>
         </div>
       )}
 
-      {/* Delete modal */}
+      {/* Delete Modal */}
       {deleteId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/70" onClick={() => setDeleteId(null)} />
