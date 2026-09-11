@@ -125,6 +125,77 @@ export default function About() {
           </div>
         </div>
       </div>
+
+      {/* FOUNDERS SECTION */}
+      <div className="py-24 border-t border-white/10">
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Meet the Founders</h2>
+            <p className="text-muted-foreground text-lg">The team behind TriTech Forge.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            {/* Wasi */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="glass-card rounded-2xl p-8 border border-white/10 flex flex-col items-center text-center"
+            >
+              <div className="w-20 h-20 rounded-full bg-primary/20 border-2 border-primary/40 flex items-center justify-center text-3xl font-bold text-primary mb-4">
+                W
+              </div>
+              <h3 className="text-xl font-bold text-white mb-1">Muhammad Wasi Shahid</h3>
+              <p className="text-primary text-sm font-semibold mb-3">Co-Founder & CEO</p>
+              <p className="text-gray-400 text-sm leading-relaxed mb-5">
+                Leads product vision and AI strategy. Passionate about building automation tools that help local businesses compete at an enterprise level.
+              </p>
+              <a
+                href="https://www.linkedin.com/in/muhammad-wasi-shahid"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600/10 border border-blue-600/30 text-blue-400 text-sm font-medium hover:bg-blue-600/20 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+            </motion.div>
+
+            {/* Mashil */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="glass-card rounded-2xl p-8 border border-white/10 flex flex-col items-center text-center"
+            >
+              <div className="w-20 h-20 rounded-full bg-secondary/20 border-2 border-secondary/40 flex items-center justify-center text-3xl font-bold text-secondary mb-4">
+                M
+              </div>
+              <h3 className="text-xl font-bold text-white mb-1">Mashil Irfan Abbasi</h3>
+              <p className="text-secondary text-sm font-semibold mb-3">Co-Founder & CTO</p>
+              <p className="text-gray-400 text-sm leading-relaxed mb-5">
+                Drives technical architecture and platform development. Focused on building scalable, reliable systems that power seamless AI voice experiences.
+              </p>
+              <a
+                href="https://www.linkedin.com/in/mashil-irfan-a55a12374"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600/10 border border-blue-600/30 text-blue-400 text-sm font-medium hover:bg-blue-600/20 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+            </motion.div>
+          </div>
+        </div>
+      </div>
     </Layout>
   );
 }
