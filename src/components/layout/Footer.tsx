@@ -73,11 +73,14 @@ export function Footer() {
             <ul className="flex flex-col gap-4">
               <li className="flex items-start gap-3 text-muted-foreground">
                 <Mail className="w-5 h-5 mt-0.5 text-primary" />
-                <span>hello@tritechforge.cloud</span>
+                <span>tritechforge@gmail.com</span>
               </li>
               <li className="flex items-start gap-3 text-muted-foreground">
                 <Phone className="w-5 h-5 mt-0.5 text-primary" />
-                <a href="tel:+14699606870" className="hover:text-primary transition-colors">+1-469-960-6870</a>
+                <div className="flex flex-col gap-1">
+                  <a href="tel:+923295904166" className="hover:text-primary transition-colors">+92 329 5904166</a>
+                  <a href="https://wa.me/923295904166" target="_blank" rel="noopener noreferrer" className="text-xs text-green-400 hover:text-green-300 transition-colors">💬 Also on WhatsApp</a>
+                </div>
               </li>
               <li className="flex items-start gap-3 text-muted-foreground">
                 <MapPin className="w-5 h-5 mt-0.5 text-primary" />

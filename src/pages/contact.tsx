@@ -64,7 +64,7 @@ export default function Contact() {
         const body = encodeURIComponent(
           `Name: ${data.name}\nBusiness: ${data.business}\nEmail: ${data.email}\nPhone: ${data.phone}\nIndustry: ${data.industry || "Not specified"}\nMessage: ${data.message || "—"}`
         );
-        window.open(`mailto:hello@tritechforge.com?subject=${subject}&body=${body}`);
+        window.open(`mailto:tritechforge@gmail.com?subject=${subject}&body=${body}`);
       }
       setSubmitState("success");
       form.reset();
@@ -247,7 +247,7 @@ export default function Contact() {
 
                       {submitState === "error" && (
                         <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
-                          Something went wrong. Please email us directly at hello@tritechforge.com
+                          Something went wrong. Please email us directly at tritechforge@gmail.com
                         </p>
                       )}
 
@@ -290,16 +290,16 @@ export default function Contact() {
                       color: "bg-primary/10",
                       iconColor: "text-primary",
                       label: "Email",
-                      value: "hello@tritechforge.com",
+                      value: "tritechforge@gmail.com",
                       sub: "We typically reply within 2 hours.",
                     },
                     {
                       icon: Phone,
                       color: "bg-secondary/10",
                       iconColor: "text-secondary",
-                      label: "Phone",
-                      value: "Call Us Directly",
-                      sub: "Mon-Fri 9am–6pm PST · Gulf hours available",
+                      label: "Phone & WhatsApp",
+                      value: "+92 329 5904166",
+                      sub: "Call or WhatsApp us anytime",
                     },
                     {
                       icon: Clock,
@@ -339,16 +339,24 @@ export default function Contact() {
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">Prefer to talk first?</h3>
                 <p className="text-sm text-muted-foreground mb-5">
-                  Book a 15-minute discovery call directly on our calendar — no commitment needed.
+                  Call or WhatsApp us directly — no commitment needed.
                 </p>
                 <a
-                  href="tel:+033359823786"
-                  className="block w-full px-6 py-3 rounded-xl border border-primary/30 text-primary font-semibold hover:bg-primary/10 transition-colors text-sm"
+                  href="tel:+923295904166"
+                  className="block w-full px-6 py-3 rounded-xl border border-primary/30 text-primary font-semibold hover:bg-primary/10 transition-colors text-sm mb-3"
                   data-testid="link-book-call"
                 >
-                  📞 Book a Call — 15 min
+                  📞 +92 329 5904166
                 </a>
-                <p className="text-xs text-gray-600 mt-3">Tap to call us directly</p>
+                <a
+                  href="https://wa.me/923295904166"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full px-6 py-3 rounded-xl border border-green-500/30 text-green-400 font-semibold hover:bg-green-500/10 transition-colors text-sm"
+                >
+                  💬 WhatsApp Us
+                </a>
+                <p className="text-xs text-gray-600 mt-3">Available via call & WhatsApp</p>
               </div>
             </motion.div>
           </div>

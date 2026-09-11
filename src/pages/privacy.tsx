@@ -94,7 +94,7 @@ export default function Privacy() {
                 <p>If you have any questions about this Privacy Policy or how we handle your data, please contact us at:</p>
                 <div className="mt-3 glass-card p-4 rounded-xl border border-white/10">
                   <p className="text-white font-medium">TriTech Forge</p>
-                  <p>Email: <a href="mailto:hello@tritechforge.com" className="text-primary hover:underline">hello@tritechforge.com</a></p>
+                  <p>Email: <a href="mailto:tritechforge@gmail.com" className="text-primary hover:underline">tritechforge@gmail.com</a></p>
                 </div>
               </section>
 
