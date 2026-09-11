@@ -16,7 +16,7 @@ import { useState } from "react";
 // 2. Create a new form and copy your Form ID (looks like: xpzvrgkq)
 // 3. Set VITE_FORMSPREE_ID=your_form_id in your .env file
 // 4. Formspree will email you every time someone fills the form
-const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID || "mwvydbnz";
+const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID || "meaqdwew";
 // ────────────────────────────────────────────────────────────────────────────
 
 const formSchema = z.object({
@@ -64,7 +64,7 @@ export default function Contact() {
         const body = encodeURIComponent(
           `Name: ${data.name}\nBusiness: ${data.business}\nEmail: ${data.email}\nPhone: ${data.phone}\nIndustry: ${data.industry || "Not specified"}\nMessage: ${data.message || "—"}`
         );
-        window.open(`mailto:hello@tritechforge.cloud?subject=${subject}&body=${body}`);
+        window.open(`mailto:hello@tritechforge.com?subject=${subject}&body=${body}`);
       }
       setSubmitState("success");
       form.reset();
@@ -247,7 +247,7 @@ export default function Contact() {
 
                       {submitState === "error" && (
                         <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3">
-                          Something went wrong. Please email us directly at hello@tritechforge.cloud
+                          Something went wrong. Please email us directly at hello@tritechforge.com
                         </p>
                       )}
 
@@ -290,7 +290,7 @@ export default function Contact() {
                       color: "bg-primary/10",
                       iconColor: "text-primary",
                       label: "Email",
-                      value: "hello@tritechforge.cloud",
+                      value: "hello@tritechforge.com",
                       sub: "We typically reply within 2 hours.",
                     },
                     {
@@ -298,7 +298,7 @@ export default function Contact() {
                       color: "bg-secondary/10",
                       iconColor: "text-secondary",
                       label: "Phone",
-                      value: "+1-469-960-6870",
+                      value: "Call Us Directly",
                       sub: "Mon-Fri 9am–6pm PST · Gulf hours available",
                     },
                     {
@@ -342,11 +342,11 @@ export default function Contact() {
                   Book a 15-minute discovery call directly on our calendar — no commitment needed.
                 </p>
                 <a
-                  href="tel:+14699606870"
+                  href="tel:+033359823786"
                   className="block w-full px-6 py-3 rounded-xl border border-primary/30 text-primary font-semibold hover:bg-primary/10 transition-colors text-sm"
                   data-testid="link-book-call"
                 >
-                  📞 +1-469-960-6870
+                  📞 Book a Call — 15 min
                 </a>
                 <p className="text-xs text-gray-600 mt-3">Tap to call us directly</p>
               </div>
