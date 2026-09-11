@@ -82,7 +82,7 @@ export function GrokChat() {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-linear-to-br from-primary to-primary/70 text-white shadow-lg hover:shadow-xl hover:scale-110 transition-all flex items-center justify-center"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/70 text-white shadow-lg hover:shadow-xl hover:scale-110 transition-all flex items-center justify-center"
       >
         <AnimatePresence mode="wait">
           {isOpen ? (
@@ -108,7 +108,7 @@ export function GrokChat() {
             style={{ maxHeight: "min(600px, calc(100vh - 8rem))" }}
           >
             {/* Header */}
-            <div className="p-4 border-b border-white/10 bg-linear-to-r from-primary/20 to-transparent shrink-0">
+            <div className="p-4 border-b border-white/10 bg-gradient-to-r from-primary/20 to-transparent shrink-0">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />

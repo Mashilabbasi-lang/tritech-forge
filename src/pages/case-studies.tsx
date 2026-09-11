@@ -205,7 +205,7 @@ export default function CaseStudies() {
                   <div className="flex-1 space-y-6">
                     {/* Client header */}
                     <div className="flex items-center gap-4">
-                      <div className={`w-14 h-14 rounded-2xl bg-linear-to-br ${cs.color} border ${cs.border} flex items-center justify-center text-lg font-extrabold text-white shrink-0`}>
+                      <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${cs.color} border ${cs.border} flex items-center justify-center text-lg font-extrabold text-white shrink-0`}>
                         {cs.logo}
                       </div>
                       <div>
@@ -247,7 +247,7 @@ export default function CaseStudies() {
                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Results</p>
                     <div className="space-y-4">
                       {cs.results.map((r, j) => (
-                        <div key={j} className={`bg-linear-to-br ${cs.color} border ${cs.border} rounded-2xl p-5 text-center`}>
+                        <div key={j} className={`bg-gradient-to-br ${cs.color} border ${cs.border} rounded-2xl p-5 text-center`}>
                           <p className={`text-3xl font-extrabold ${cs.accent} mb-1`}>{r.metric}</p>
                           <p className="text-xs text-gray-400">{r.label}</p>
                         </div>

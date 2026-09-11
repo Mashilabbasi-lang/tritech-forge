@@ -240,7 +240,7 @@ export default function Home() {
 
           <div className="relative">
             {/* Connecting line */}
-            <div className="hidden md:block absolute top-1/2 left-[10%] right-[10%] h-0.5 bg-linear-to-r from-primary/10 via-primary/50 to-primary/10 -translate-y-1/2" />
+            <div className="hidden md:block absolute top-1/2 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-primary/10 via-primary/50 to-primary/10 -translate-y-1/2" />
             
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4 relative z-10">
               {[
@@ -316,7 +316,7 @@ export default function Home() {
       {/* CTA BANNER */}
       <section className="py-24 relative overflow-hidden border-t border-white/10">
         <div className="absolute inset-0 bg-primary/5" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[300px] bg-linear-to-r from-primary/30 to-secondary/30 blur-[100px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[300px] bg-gradient-to-r from-primary/30 to-secondary/30 blur-[100px] pointer-events-none" />
         
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <FadeIn>
