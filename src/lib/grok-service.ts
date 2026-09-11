@@ -12,30 +12,9 @@ export interface LeadData {
   message?: string;
 }
 
-const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || "";
-const GROQ_MODEL = "llama-3.1-8b-instant";
+// All chat calls go through our backend — the Groq API key never touches the browser
+const BASE = import.meta.env.VITE_CRM_API_URL || "http://localhost:3001";
 const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID || "meaqdwew";
-
-const SYSTEM_PROMPT = `You are a smart sales assistant for TriTech Forge, an AI voice automation platform for home services and trade businesses.
-
-Your job: Answer questions briefly, and when a user wants a demo or to book a call, collect their info naturally — one question at a time.
-
-Info to collect (in order, only when relevant):
-1. Full name
-2. Business name
-3. Email address
-4. Phone number
-5. Industry (HVAC, Plumbing, Electrical, Roofing, Car Dealership, Real Estate, etc.)
-
-Rules:
-- Keep all responses SHORT (1-3 sentences max)
-- Never ask for all info at once — one question at a time
-- Once you have all 5 fields, respond with EXACTLY this on its own line:
-LEAD_READY:{"name":"...","business":"...","email":"...","phone":"...","industry":"..."}
-- If user asks about services/pricing, answer briefly then offer a demo
-- Be friendly and conversational
-
-Services: AI receptionist, outbound calling, appointment scheduling, lead qualification. Pricing from $100/mo.`;
 
 export async function submitLeadToFormspree(lead: LeadData): Promise<boolean> {
   try {
@@ -66,36 +45,22 @@ export function extractLeadFromResponse(text: string): LeadData | null {
 
 export async function sendMessageToGrok(messages: GrokMessage[]): Promise<string> {
   try {
-    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const res = await fetch(`${BASE}/api/chat`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${GROQ_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: GROQ_MODEL,
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          ...messages,
-        ],
-        temperature: 0.5,
-        max_tokens: 300,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages }),
     });
 
     const json = await res.json();
 
     if (!res.ok) {
-      const errMsg = json?.error?.message || res.statusText;
-      console.error("Groq error:", res.status, errMsg);
       if (res.status === 429) return "Too many requests — please wait a moment and try again.";
-      return `Error: ${errMsg}`;
+      return `Error: ${json?.error || res.statusText}`;
     }
 
-    return json.choices?.[0]?.message?.content || "No response received.";
-
+    return json.content || "No response received.";
   } catch (err) {
-    console.error("Groq fetch error:", err);
+    console.error("Chat fetch error:", err);
     return "Unable to connect. Please try again later.";
   }
 }
