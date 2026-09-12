@@ -152,12 +152,12 @@ export default function About() {
                 W
               </div>
               <h3 className="text-xl font-bold text-white mb-1">Muhammad Wasi Shahid</h3>
-              <p className="text-primary text-sm font-semibold mb-3">Co-Founder & CEO</p>
+              <p className="text-primary text-sm font-semibold mb-3">Co-Founder</p>
               <p className="text-gray-400 text-sm leading-relaxed mb-5">
                 Leads product vision and AI strategy. Passionate about building automation tools that help local businesses compete at an enterprise level.
               </p>
               <a
-                href="https://www.linkedin.com/in/muhammad-wasi-shahid"
+                href="https://www.linkedin.com/in/muhammad-wasi-shahid-a38087357"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600/10 border border-blue-600/30 text-blue-400 text-sm font-medium hover:bg-blue-600/20 transition-colors"
@@ -179,7 +179,7 @@ export default function About() {
                 M
               </div>
               <h3 className="text-xl font-bold text-white mb-1">Mashil Irfan Abbasi</h3>
-              <p className="text-secondary text-sm font-semibold mb-3">Co-Founder & CTO</p>
+              <p className="text-secondary text-sm font-semibold mb-3">Co-Founder</p>
               <p className="text-gray-400 text-sm leading-relaxed mb-5">
                 Drives technical architecture and platform development. Focused on building scalable, reliable systems that power seamless AI voice experiences.
               </p>
