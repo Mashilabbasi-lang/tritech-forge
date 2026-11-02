@@ -12,21 +12,15 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-producti
 app.use(cors());
 app.use(express.json());
 
-// Vercel can hand the function a stripped path. Express routes are mounted at /api.
+// Restore the public /api path. Vercel sometimes rewrites req.url to the function file.
 app.use((req, _res, next) => {
-  if (!process.env.VERCEL) return next();
-
-  let url = String(req.url || '/');
-  if (url.startsWith('http://') || url.startsWith('https://')) {
-    const parsed = new URL(url);
-    url = `${parsed.pathname}${parsed.search}`;
-  }
-
-  const queryIndex = url.indexOf('?');
-  const pathname = queryIndex === -1 ? url : url.slice(0, queryIndex);
-  const search = queryIndex === -1 ? '' : url.slice(queryIndex);
-  if (!pathname.startsWith('/api')) {
-    const suffix = pathname === '/' || pathname === '' ? '' : pathname.startsWith('/') ? pathname : `/${pathname}`;
+  const original = String(req.originalUrl || req.url || '/');
+  const pathname = original.split('?')[0];
+  if (pathname.startsWith('/api')) {
+    req.url = original;
+  } else if (pathname && pathname !== '/') {
+    const search = original.includes('?') ? original.slice(original.indexOf('?')) : '';
+    const suffix = pathname.startsWith('/') ? pathname : `/${pathname}`;
     req.url = `/api${suffix}${search}`;
   }
   next();
@@ -597,6 +591,15 @@ app.patch('/api/admin/products/:id/price', authenticateAdmin, (req, res) => {
     console.error('Update product price error:', error);
     res.status(500).json({ error: 'Server error' });
   }
+});
+
+app.use((req, res) => {
+  res.status(404).json({
+    error: 'Not found',
+    method: req.method,
+    url: req.url,
+    originalUrl: req.originalUrl,
+  });
 });
 
 app.use((err, _req, res, next) => {
