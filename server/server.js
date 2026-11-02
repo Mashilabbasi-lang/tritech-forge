@@ -12,15 +12,30 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-producti
 app.use(cors());
 app.use(express.json());
 
-// Vercel may invoke this function with the path after /api stripped.
+// Vercel can hand the function a stripped path. Express routes are mounted at /api.
 app.use((req, _res, next) => {
   if (!process.env.VERCEL) return next();
-  const [pathname, query = ''] = String(req.url || '').split('?');
-  if (!pathname.startsWith('/api')) {
-    const suffix = pathname === '/' ? '' : pathname;
-    req.url = `/api${suffix}${query ? `?${query}` : ''}`;
+
+  const headerPath = req.headers['x-forwarded-uri'] || req.headers['x-invoke-path'];
+  let url = typeof headerPath === 'string' && headerPath.startsWith('/') ? headerPath : String(req.url || '/');
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    const parsed = new URL(url);
+    url = `${parsed.pathname}${parsed.search}`;
   }
+
+  const queryIndex = url.indexOf('?');
+  const pathname = queryIndex === -1 ? url : url.slice(0, queryIndex);
+  const search = queryIndex === -1 ? '' : url.slice(queryIndex);
+  if (!pathname.startsWith('/api')) {
+    const suffix = pathname === '/' ? '' : pathname.startsWith('/') ? pathname : `/${pathname}`;
+    url = `/api${suffix}${search}`;
+  }
+  req.url = url;
   next();
+});
+
+app.get('/api/health', (_req, res) => {
+  res.json({ ok: true });
 });
 
 // Auth middleware

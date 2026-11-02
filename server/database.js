@@ -1,6 +1,25 @@
-const Database = require('better-sqlite3');
 const fs = require('fs');
 const path = require('path');
+
+function openDatabase(dbPath) {
+  const { DatabaseSync } = require('node:sqlite');
+  const db = new DatabaseSync(dbPath);
+  const prepare = db.prepare.bind(db);
+  db.prepare = (sql) => {
+    const statement = prepare(sql);
+    const run = statement.run.bind(statement);
+    statement.run = (...args) => {
+      const result = run(...args);
+      if (!result) return result;
+      const lastInsertRowid = typeof result.lastInsertRowid === 'bigint'
+        ? Number(result.lastInsertRowid)
+        : result.lastInsertRowid;
+      return { changes: Number(result.changes || 0), lastInsertRowid };
+    };
+    return statement;
+  };
+  return db;
+}
 
 function resolveDbPath() {
   if (!process.env.VERCEL) {
@@ -15,7 +34,7 @@ function resolveDbPath() {
   return runtimePath;
 }
 
-const db = new Database(resolveDbPath());
+const db = openDatabase(resolveDbPath());
 
 function ensureColumn(table, column, definition) {
   const cols = db.prepare(`PRAGMA table_info(${table})`).all();
