@@ -16,8 +16,7 @@ app.use(express.json());
 app.use((req, _res, next) => {
   if (!process.env.VERCEL) return next();
 
-  const headerPath = req.headers['x-forwarded-uri'] || req.headers['x-invoke-path'];
-  let url = typeof headerPath === 'string' && headerPath.startsWith('/') ? headerPath : String(req.url || '/');
+  let url = String(req.url || '/');
   if (url.startsWith('http://') || url.startsWith('https://')) {
     const parsed = new URL(url);
     url = `${parsed.pathname}${parsed.search}`;
@@ -27,10 +26,9 @@ app.use((req, _res, next) => {
   const pathname = queryIndex === -1 ? url : url.slice(0, queryIndex);
   const search = queryIndex === -1 ? '' : url.slice(queryIndex);
   if (!pathname.startsWith('/api')) {
-    const suffix = pathname === '/' ? '' : pathname.startsWith('/') ? pathname : `/${pathname}`;
-    url = `/api${suffix}${search}`;
+    const suffix = pathname === '/' || pathname === '' ? '' : pathname.startsWith('/') ? pathname : `/${pathname}`;
+    req.url = `/api${suffix}${search}`;
   }
-  req.url = url;
   next();
 });
 
